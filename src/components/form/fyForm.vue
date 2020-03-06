@@ -1,3 +1,6 @@
+          
+          
+          
 <template>
     <div class="fy-form">
         <slot></slot>
@@ -12,9 +15,9 @@ export default {
         }
     },
     props: {
-        model: {
+        model:{
             type: Object,
-            default: {}
+            required:true
         },
         rules: {
             type: Object
@@ -26,6 +29,20 @@ export default {
     data() {
         return {
             // key: value
+        }
+    },
+    methods: {
+        validate(callback) {
+           var arr = this.$children
+           .filter((item)=>{
+               return item.prop
+           })
+           .map((item)=>{
+               return  item.validate();
+            })
+            Promise.all(arr)
+            .then(()=>{callback(true)})
+            .catch(()=>{callback(false)})
         }
     },
 }

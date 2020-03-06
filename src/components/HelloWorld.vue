@@ -1,14 +1,19 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <fy-form :model="form" :rules="rules">
+    <fy-form :model="form" :rules="rules" ref ="ruleForm">
         <fy-form-item :label="user_name" prop="name">
             <fy-input type="text" v-model="form.name" @input="getValue"  @focus="getFocus"  placeholder="请输入用户名"></fy-input>  
+            
         </fy-form-item>
         <fy-form-item :label="password" prop="psd">
            <fy-input type="text" v-model="form.psd" @input="getValue"  @focus="getFocus" placeholder="请输入密码"></fy-input>  
         </fy-form-item>
+        <fy-form-item>
+           <button @click="onSubmit('ruleForm')">表单提交</button>
+        </fy-form-item>
     </fy-form>
+    <div>{{form.name}}</div>
   </div>
 </template>
 
@@ -36,8 +41,8 @@ export default {
         psd:''
       },
       rules: {
-          name: [{ required: true, message: '请输入活动名称'},],
-          psd: [{ required: true, message: '请选择活动区域'}]
+          name: [{ required: true, message: '请输入用户名'},],
+          psd: [{ required: true, message: '请输入密码'}]
       }
     }
   },
@@ -47,6 +52,15 @@ export default {
     },
     getFocus(e){
       console.log('监听到获取焦点');
+    },
+    onSubmit(name){
+      this.$refs[name].validate((valid)=>{
+          if(valid){
+            alert("校验成功");
+          }else{
+             console.log('error submit!!');
+          }
+      });
     }
   },
 }

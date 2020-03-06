@@ -1,6 +1,6 @@
 <template>
     <div>
-        <input class="fy-input" :type="type"  :value="value" @input="onInput" v-bind="$attrs" @focus="onFocus" >
+        <input class="fy-input" :type="type"  :value="value" @input="onInput" v-bind="$attrs" @blur="onblur" >
     </div>
 </template> 
 <script>
@@ -9,6 +9,7 @@ export default {
     components: {
         // New,
     },
+    inheritAttrs:false,
     // inheritAttrs:false,
     props: {
         type: {
@@ -28,13 +29,19 @@ export default {
     methods: {
         onInput(e) {
             this.$emit('input',e.target.value);
+           
         },
-        onFocus(e){
-            console.log(e);
-             this.$emit('focus',e); 
+        onblur(e){
+            // console.log(e);
+            //  this.$emit('focus',e);
+            //失去焦点，验证规则正确性 
+             this.$parent.$emit('validate');
         }
         
     },
+    mounted () {
+
+    }
 }
 </script> 
 <style scoped>
